@@ -83,10 +83,11 @@ pipeline {
        } 
        stage('connect k8') {
             steps {
-                sh '''
-                  kubectl get nodes
+                script {
+                    sh "kubectl get nodes"
+                   
+               }
                 
-                '''
             }
         }	
 
