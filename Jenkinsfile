@@ -81,34 +81,40 @@ pipeline {
                }
           }
        } 
-       stage('connect k8') {
+       // stage('connect k8') {
+       //      steps {
+       //          script {
+       //              sh "sudo kubectl get nodes"
+                   
+       //         }
+                
+       //      }
+       //  }	
+
+       // stage('deploy k8 files') {
+       //      steps {
+                
+       //        sh '''
+       //                   sudo kubectl apply -f $WORKSPACE/deploy.yaml
+       //        '''
+                
+       //      }
+       //  }    
+       // stage('validate deployment') {
+       //      steps {
+       //          sh '''
+       //           sudo kubectl get po
+                 
+       //          '''
+       //      }
+       //  }
+      stage("Trigger CD Pipeline") {
             steps {
                 script {
-                    sh "sudo kubectl get nodes"
-                   
-               }
-                
+                    sh "curl -v -k --user sailesh:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-18-206-100-26.compute-1.amazonaws.com:8080/job/jenkins_k8/job/Cd_k8/build?token=gitops-token'"
+                }
             }
-        }	
-
-       stage('deploy k8 files') {
-            steps {
-                
-              sh '''
-                         sudo kubectl apply -f $WORKSPACE/deploy.yaml
-              '''
-                
-            }
-        }    
-       stage('validate deployment') {
-            steps {
-                sh '''
-                 sudo kubectl get po
-                 
-                '''
-            }
-        }
-	    
+       }	    
     }
 
 }
