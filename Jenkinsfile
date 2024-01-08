@@ -84,7 +84,7 @@ pipeline {
        stage('connect k8') {
             steps {
                 script {
-                    sh "kubectl get nodes"
+                    sh "sudo kubectl get nodes"
                    
                }
                 
@@ -95,7 +95,7 @@ pipeline {
             steps {
                 
               sh '''
-                          kubectl apply -f $WORKSPACE/deploy.yaml
+                         sudo kubectl apply -f $WORKSPACE/deploy.yaml
               '''
                 
             }
@@ -103,7 +103,7 @@ pipeline {
        stage('validate deployment') {
             steps {
                 sh '''
-                 kubectl get po
+                 sudo kubectl get po
                  
                 '''
             }
