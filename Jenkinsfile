@@ -81,8 +81,33 @@ pipeline {
                }
           }
        } 
+       stage('connect k8') {
+            steps {
+                sh '''
+                  kubectl get nodes
+                
+                '''
+            }
+        }	
 
-      
+       stage('deploy k8 files') {
+            steps {
+                
+              sh '''
+                          kubectl apply -f $WORKSPACE/deploy.yaml
+              '''
+                
+            }
+        }    
+       stage('validate deployment') {
+            steps {
+                sh '''
+                 kubectl get po
+                 
+                '''
+            }
+        }
+	    
     }
 
 }
